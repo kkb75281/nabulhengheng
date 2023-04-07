@@ -1,12 +1,8 @@
 <template lang="pug">
 main
-    .bgWater 
-    .bgItems 
-        img.item.i1(src="../assets/img/Asset1.png")
-        img.item.i2(src="../assets/img/Asset2.png")
-        img.item.i3(src="../assets/img/Pngtree.png")
-        img.item.i4(src="../assets/img/Asset2.png")
-        img.item.i5(src="../assets/img/Asset1.png")
+    #water(src="../assets/img/Asset3.png")
+    img#bgItems(src="../assets/img/candle.png")
+    #showAnswers
 </template>
 
 <script setup>
@@ -21,27 +17,47 @@ skapi.getRecords({
     }
 }).then(result=>{
     let answersArr = result.list;
+    let currentAnsLen = 0;
+    let prevAnsLen = 0;
+    let showAnswers = document.getElementById('showAnswers');
 
-    for(let i=0; i<answersArr.length; i++) {
-        let answer = answersArr[i].data.answer;
-        console.log(answer);
-    }
+    setInterval(() => {
+        currentAnsLen = answersArr.length;
+    })
+
+    
+
 })
 
 onMounted(() => {
-    // let changeWaterImgs = ['src/assets/img/Asset3.png', 'src/assets/img/Asset4.png'];
-    // let objImg = document.getElementById("water");
-    // objImg.style.width = document.querySelector('main').clientWidth;
+    // 물 색깔 변경
+    let changeWaterImgs = ['src/assets/img/water1.png', 'src/assets/img/water2.png'];
+    let waterImg = document.getElementById("water");
 
-    // function changeWater(){
-    //     let imgNum = Math.floor(Math.random() * 2);
+    function changeWater(){
+        let imgNum = Math.floor(Math.random() * 2);
         
-    //     objImg.src = changeWaterImgs[imgNum];
-        
-    //     setTimeout(changeWater,1000);
-    // }
+        waterImg.style.background = 'url('+changeWaterImgs[imgNum]+')';
+        waterImg.style.backgroundPosition = 'bottom';
+        waterImg.style.backgroundSize = 'cover';
 
-    // changeWater();
+        waterImg.style.transitionProperty = 'opacity';
+        waterImg.style.transitionDuration = '1s';
+        // waterImg.style.transition-timing-function: linear;
+        // waterImg.style.transition-delay: .5s; /* 500밀리초 */
+
+        
+
+        setTimeout(changeWater,1000);
+    }
+    changeWater();
+
+    function Mobile() { return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); }
+    if (Mobile()) {
+
+    } else {
+
+    }
 
 })
 </script>
@@ -50,48 +66,27 @@ onMounted(() => {
 main {
     width: 100vw;
     height: 100vh;
-    background: url(@/assets/img/baekdu.jpg) no-repeat;
+    background: url(@/assets/img/1.jpg) no-repeat;
     background-position: bottom;
     background-size: cover;
     position: relative;
     overflow: hidden;
 
-    .bgWater {
-        width: 100%;
-        height: 100%;
-        background: url(@/assets/img/Asset3.png) no-repeat;
-        background-size: cover;
+    #water {
+        width: 100vw;
+        height: 100vh;
         opacity: 0.5;
     }
 
-    .bgItems {
-        .item {
-            position: absolute;
-            bottom: 50px;
-            transform: translateX(-50%);
-
-            &.i1 {
-                width: 470px;
-                left: 8%;
-            }
-            &.i2 {
-                width: 120px;
-                left: 20%;
-            }
-            &.i3 {
-                width: 1000px;
-                left: 50%;
-                bottom: -10px;
-            }
-            &.i4 {
-                width: 120px;
-                left: 80%;
-            }
-            &.i5 {
-                width: 470px;
-                left: 92%;
-            }
-        }
+    #bgItems {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        object-fit: cover;
     }
 }
 </style>
