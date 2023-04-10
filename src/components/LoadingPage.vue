@@ -1,5 +1,5 @@
 <template lang="pug">
-main
+#loading
     #water(src="../assets/img/Asset3.png")
     img#bgItems(src="../assets/img/candle.png")
     #content
@@ -22,14 +22,13 @@ skapi.getRecords({
         let answer = result.list[i].data.answer;
         answers.push(answer);
     }
+    answers.unshift(answers[answers.length - 1]);
+
     let showAnswers = document.getElementById('showAnswers');
-    let fixedAnswers = document.getElementById('fixedAnswers');
     let newObj = [];
     let answerTop = new Array(answers.length);
     let WIDTH = 300;
     let HEIGHT = 30;
-    let DRAWTIME = 1400;
-    let DOWNTIME = 700;
     let idx = 0;
 
     for (let i = 0; i < answerTop.length; i++) {
@@ -53,14 +52,13 @@ skapi.getRecords({
         } else {
             answerDiv.style.left = leftWidth + "px";
         }
-        console.log(leftWidth, answerDiv.style.left)
         
         newObj.push(answerDiv);
 
         if (newObj.length === answers.length) {
             clearInterval(drawInterval);
         }
-    }, DRAWTIME);
+    }, 1000);
 
     function downAnswer() {
         setInterval(function () {
@@ -68,24 +66,19 @@ skapi.getRecords({
                 if (i < newObj.length) {
                     newObj[i].style.top = answerTop[i] + "px";
                     answerTop[i] += 30;
-                    // 글자의 범위가 경계(바닥) 바깥으로 나갔을 경우 제거
                     if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight/1.5) {
                         if (showAnswers.contains(newObj[i])) {
                             showAnswers.removeChild(newObj[i]);
-                            fixedAnswers.appendChild(newObj[i]);
-                            fixedAnswers.style.writingMode= 'vertical-lr';
-                            newObj[i].style.left = 0 + "px";
-                            answerTop[i] = 0;
                         }
                     }
                 }
             }
-        }, DOWNTIME);
+        }, 500);
     }    
     downAnswer();
 
-
-    
+    // setTimeout("location.href = '/artist'", 7500);
+    setTimeout("document.getElementById('loading').remove();", 7500);
 
 })
 
@@ -108,7 +101,7 @@ onMounted(() => {
 </script>
 
 <style lang="less">
-main {
+#loading {
     width: 100vw;
     height: 100vh;
     background: url(@/assets/img/1.jpg) no-repeat;
@@ -150,14 +143,18 @@ main {
         top: 0;
         width: 100%;
         height: 100%;
+        z-index: 999;
 
         #showAnswers {
             width: 100%;
             height: 100%;
             position: relative;
-    
+
             .answer {
-                color: #000;
+                &:first-child {
+                    color: #000;
+                }
+                color: #777;
                 font-size: 24px;
                 font-weight: 400;
             }
@@ -170,6 +167,8 @@ main {
         top: 40px;
         width: calc(100% - 80px);
         height: calc(100% - 80px);
+        writing-mode: vertical-lr;
+        white-space:nowrap;
 
         .answer {
             color: #000;
@@ -179,4 +178,4 @@ main {
     }
 }
 </style>
-        
+            

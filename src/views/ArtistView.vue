@@ -25,6 +25,7 @@ main
 <script setup>
 import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
+import LoadingPage from '@/components/LoadingPage.vue';
 
 let invaildShow = ref(false);
 let invaildHide = ref(false);
@@ -48,10 +49,6 @@ function hrefLink(e) {
     e.preventDefault();
 }
 
-function afterSubmit() {
-    location.href = '/artist';
-}
-
 async function submitForm(e){
     let setting = {
         table: {
@@ -61,12 +58,13 @@ async function submitForm(e){
     console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     console.log({ result });
+    let main = document.getElementsByTagName('main')
+    let loading = await main.before(LoadingPage);
     location.href = '/artist';
 }
 
 onMounted(() => {
 que.value = questions[random];
-
 })
 </script>
     
