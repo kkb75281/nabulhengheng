@@ -1,4 +1,5 @@
 <template lang="pug">
+LoadingPage(v-if="invaildLoad")
 main
     header
         h2
@@ -9,7 +10,7 @@ main
     section
         p 저는 ‘예술가’라는 이름을 붙잡으며 살고 있어요. 여기에서 이 질문을 보고 있다면 당신도 최소한 예술의 언저리에 있는 사람일 수도 있겠네요. 당신의 나날 속 ‘예술’에 대해 말해주세요. 이 질문에 답하면 '예술가'로 산다는 것에 대한 제 생각을 더 읽을 수 있어요.
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
-        form#qna(:class="{active: invaildShow}" action="/artist" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
+        form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
                 .icon Q
                 h4 {{ que }}
@@ -27,6 +28,7 @@ import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
 import LoadingPage from '@/components/LoadingPage.vue';
 
+let invaildLoad = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
 let que = ref('');
@@ -58,9 +60,9 @@ async function submitForm(e){
     console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     console.log({ result });
-    let main = document.getElementsByTagName('main')
-    let loading = await main.before(LoadingPage);
-    location.href = '/artist';
+    invaildLoad.value = true;
+    document.querySelector('main').classList.add('hide');
+    setTimeout("location.href = '/artist';", 6000);
 }
 
 onMounted(() => {
@@ -72,6 +74,10 @@ que.value = questions[random];
 main {
     padding: 20px;
 
+    &.hide {
+        display: none;
+    }
+    
     header {
         display: flex;
         flex-wrap: nowrap;

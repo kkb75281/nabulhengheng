@@ -1,4 +1,5 @@
 <template lang="pug">
+LoadingPage(v-if="invaildLoad")
 main
     header
         h2 사랑
@@ -6,7 +7,7 @@ main
     section
         p 사랑은 쥐는 법보다 놓는 법이 더 어려운 때가 있는 것 같아요. 그래서 결국 이러지도 저러지도 못하고 시간만 끌게 되기도 하죠. 당신의 사랑은 어땠나요? 애써 켜두었나요, 아니면 영문도 모른 채 끊겨버렸나요? 일단 이 질문부터 찬찬히 생각해봐요. 여기에 답하면 '사랑'에 대한 제 생각을 더 읽을 수 있어요.
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
-        form#qna(:class="{active: invaildShow}" action="/love" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
+        form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
                 .icon Q
                 h4 {{ que }}
@@ -22,7 +23,9 @@ main
 <script setup>
 import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
+import LoadingPage from '@/components/LoadingPage.vue';
 
+let invaildLoad = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
 let que = ref('');
@@ -54,18 +57,23 @@ async function submitForm(e){
     console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     console.log({ result });
-    location.href = '/love';
+    invaildLoad.value = true;
+    document.querySelector('main').classList.add('hide');
+    setTimeout("location.href = '/love';", 6000);
 }
 
 onMounted(() => {
 que.value = questions[random];
-
 })
 </script>
     
 <style lang="less">
 main {
     padding: 20px;
+
+    &.hide {
+        display: none;
+    }
 
     header {
         display: flex;
@@ -76,11 +84,7 @@ main {
             font-weight: 700;
             font-size: 40px;
             line-height: 44px;
-            width: 50px;
-    
-            &.logo {
-                width: 74px;
-            }
+            width: 74px;
         }
     }
     

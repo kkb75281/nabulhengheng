@@ -63,6 +63,11 @@ const router = createRouter({
       path: '/loading',
       name: 'loading',
       component: () => import('../components/LoadingPage.vue')
+    },
+    {
+      path: '/loadingPC',
+      name: 'loadingPC',
+      component: () => import('../components/LoadingPagePC.vue')
     }
   ]
 })

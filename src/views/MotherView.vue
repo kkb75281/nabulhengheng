@@ -1,4 +1,5 @@
 <template lang="pug">
+LoadingPage(v-if="invaildLoad")
 main
     header
         h2 엄마
@@ -6,7 +7,7 @@ main
     section
         p 엄마는 저에게 있어 애증의 관계에 있어요(이건 당신과 나만의 비밀이에요). 엄마로 산다는 것이 도대체가 무엇인지 저는 가끔 통탄스러워요. 이건 제 엄마만의 이야기일까요? 지금 이 글을 읽고 있는 당신도 엄마를 찬찬히 떠올릴 수 있게 도와드릴게요. 이 질문에 답하면 '엄마'에 대한 제 생각을 더 읽을 수 있어요.
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
-        form#qna(:class="{active: invaildShow}" action="/mother" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
+        form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
                 .icon Q
                 h4 {{ que }}
@@ -22,7 +23,9 @@ main
 <script setup>
 import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
+import LoadingPage from '@/components/LoadingPage.vue';
 
+let invaildLoad = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
 let que = ref('');
@@ -53,7 +56,9 @@ async function submitForm(e){
     console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     console.log({ result });
-    location.href = '/mother';
+    invaildLoad.value = true;
+    document.querySelector('main').classList.add('hide');
+    setTimeout("location.href = '/mother';", 6000);
 }
 
 onMounted(() => {
@@ -65,6 +70,10 @@ que.value = questions[random];
 <style lang="less">
 main {
     padding: 20px;
+
+    &.hide {
+        display: none;
+    }
 
     header {
         display: flex;

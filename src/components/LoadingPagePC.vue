@@ -10,22 +10,39 @@
 import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
 
-let answers = [];
+// let answers = [];
+let prevAns = 0;
+let currentAns = 0;
+let fetchMore = false;
+let hangingPromise = null;
 
-skapi.getRecords({
-    table: {
-        name: 'uploadAnswer',
-    }
-}, {
-    limit: 1000,
-    ascending: false
-}).then(result=>{
-    console.log(result)
-    for(let i =0; i<result.list.length; i++) {
+pullData();
+
+async function pullData() {
+    let answers = [];
+
+    let result = await skapi.getRecords({
+        table: {
+            name: 'uploadAnswer',
+        }
+    }, {
+        limit: 100,
+        ascending: false,
+        fetchMore
+    })
+
+    fetchMore = true;
+    // currentAns = result.list.length;
+    console.log({ result });
+
+    if (result.list.length === 0) return;
+
+    for (let i = 0; i < result.list.length; i++) {
         let answer = result.list[i].data.answer;
         answers.push(answer);
     }
-    // answers.unshift(answers[answers.length - 1]);
+
+    // prevAns = currentAns;
 
     let showAnswers = document.getElementById('showAnswers');
     let newObj = [];
@@ -41,7 +58,7 @@ skapi.getRecords({
     let drawInterval = setInterval(function () {
         let leftWidth = Math.round(Math.random() * (window.innerWidth - WIDTH));
         let answerDiv = document.createElement("div");
-        
+
         answerDiv.classList.add("answer");
         answerDiv.style.width = WIDTH + "px";
         answerDiv.style.height = HEIGHT + "px";
@@ -55,7 +72,7 @@ skapi.getRecords({
         } else {
             answerDiv.style.left = leftWidth + "px";
         }
-        
+
         newObj.push(answerDiv);
 
         if (newObj.length === answers.length) {
@@ -69,7 +86,7 @@ skapi.getRecords({
                 if (i < newObj.length) {
                     newObj[i].style.top = answerTop[i] + "px";
                     answerTop[i] += 30;
-                    if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight/1.5) {
+                    if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight / 1.5) {
                         if (showAnswers.contains(newObj[i])) {
                             showAnswers.removeChild(newObj[i]);
                         }
@@ -77,17 +94,75 @@ skapi.getRecords({
                 }
             }
         }, 500);
-    }    
+    }
     downAnswer();
-})
+
+    setTimeout(()=>{
+        pullData();
+    }, 1000)
+}
+// let showAnswers = document.getElementById('showAnswers');
+// let newObj = [];
+// let answerTop = new Array(answers.length);
+// let WIDTH = 300;
+// let HEIGHT = 30;
+// let idx = 0;
+
+// for (let i = 0; i < answerTop.length; i++) {
+//     answerTop[i] = 0;
+// }
+
+// let drawInterval = setInterval(function () {
+//     let leftWidth = Math.round(Math.random() * (window.innerWidth - WIDTH));
+//     let answerDiv = document.createElement("div");
+
+//     answerDiv.classList.add("answer");
+//     answerDiv.style.width = WIDTH + "px";
+//     answerDiv.style.height = HEIGHT + "px";
+//     answerDiv.style.position = "absolute";
+//     answerDiv.style.textAlign = "center";
+//     answerDiv.innerHTML = answers[idx++];
+//     showAnswers.appendChild(answerDiv);
+
+//     if (leftWidth + WIDTH >= showAnswers.offsetWidth) {
+//         answerDiv.style.left = (leftWidth - WIDTH) + "px";
+//     } else {
+//         answerDiv.style.left = leftWidth + "px";
+//     }
+
+//     newObj.push(answerDiv);
+
+//     if (newObj.length === answers.length) {
+//         clearInterval(drawInterval);
+//     }
+// }, 1000);
+
+// function downAnswer() {
+//     setInterval(function () {
+//         for (let i = 0; i < answers.length; i++) {
+//             if (i < newObj.length) {
+//                 newObj[i].style.top = answerTop[i] + "px";
+//                 answerTop[i] += 30;
+//                 if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight/1.5) {
+//                     if (showAnswers.contains(newObj[i])) {
+//                         showAnswers.removeChild(newObj[i]);
+//                     }
+//                 }
+//             }
+//         }
+//     }, 500);
+// }    
+// downAnswer();
+
+
 
 onMounted(() => {
     // 물 색깔 변경
     let waterImg = document.getElementById("water");
 
-    function changeWater(){
+    function changeWater() {
         waterImg.classList.toggle('change');
-        setTimeout(changeWater,2000);
+        setTimeout(changeWater, 2000);
     }
     changeWater();
 })
@@ -147,6 +222,7 @@ onMounted(() => {
                 &:first-child {
                     color: #000;
                 }
+
                 color: #777;
                 font-size: 24px;
                 font-weight: 400;

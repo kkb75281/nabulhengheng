@@ -1,4 +1,5 @@
 <template lang="pug">
+LoadingPage(v-if="invaildLoad")
 main
     header
         h2 말
@@ -6,7 +7,7 @@ main
     section
         p ‘말 한마디로 천 냥 빚을 갚는다.’는 속담이 있잖아요. 근데 저는 말 한마디로 천 냥 빚쟁이가 될 수도 있는 세상에 살고 있는 것 같아요. 당신에게 ‘말’이 어떤 의미인지 생각해본 적이 있나요? 내 삶 속 말들에 대해 되짚어 보세요. 이 질문에 답하면 '말'에 대한 제 생각을 더 읽을 수 있어요.
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
-        form#qna(:class="{active: invaildShow}" action="/word" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
+        form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
                 .icon Q
                 h4 {{ que }}
@@ -22,7 +23,9 @@ main
 <script setup>
 import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
+import LoadingPage from '@/components/LoadingPage.vue';
 
+let invaildLoad = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
 let que = ref('');
@@ -53,7 +56,9 @@ async function submitForm(e){
     console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     console.log({ result });
-    location.href = '/word';
+    invaildLoad.value = true;
+    document.querySelector('main').classList.add('hide');
+    setTimeout("location.href = '/word';", 6000);
 }
 
 onMounted(() => {
@@ -65,6 +70,10 @@ que.value = questions[random];
 <style lang="less">
 main {
     padding: 20px;
+
+    &.hide {
+        display: none;
+    }
     
     header {
         display: flex;
