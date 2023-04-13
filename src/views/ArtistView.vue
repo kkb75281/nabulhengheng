@@ -62,7 +62,7 @@ async function submitForm(e){
     console.log({ result });
     invaildLoad.value = true;
     document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/artist';", 6000);
+    setTimeout("location.href = '/artist';", 9000);
 }
 
 onMounted(() => {

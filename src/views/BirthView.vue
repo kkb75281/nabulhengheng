@@ -34,7 +34,7 @@ let questions = [
     '기억에 남는 생일 선물이 있다면 무엇인가요?',
     '생일에 먹고 싶은 음식은 무엇인가요?',
     '당신은 어느 계절에 태어났나요?',
-    '헤어질 때 당신이 들었던 말 중 가장 기억에 남는 말은 무엇인가요?'
+    '다음 생이 태어난다면 무엇으로 태어나고 싶나요?'
 ]
 let random = Math.floor(Math.random() * (questions.length - 1) + 1);
 
@@ -63,7 +63,7 @@ async function submitForm(e){
     console.log({ result });
     invaildLoad.value = true;
     document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/birth';", 6000);
+    setTimeout("location.href = '/birth';", 9000);
 }
 
 onMounted(() => {

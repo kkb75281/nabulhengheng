@@ -58,7 +58,7 @@ async function submitForm(e){
     console.log({ result });
     invaildLoad.value = true;
     document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/word';", 6000);
+    setTimeout("location.href = '/word';", 9000);
 }
 
 onMounted(() => {

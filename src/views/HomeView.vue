@@ -1,5 +1,6 @@
 <template lang="pug">
 main
+  img.bg(src="@/assets/img/mobile_bckground.svg")
   h1 나불행행
   p Built by Skapi [Kyubi Kwon, Baksa Gimm]
 
@@ -31,13 +32,19 @@ main
 <style lang="less" scoped>
 main {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  background: url(@/assets/img/mobile_bckground.svg) no-repeat;
-  background-size: cover;
 
+  .bg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: -1;
+  }
   h1 {
     width: 74px;
     font-size: 40px;

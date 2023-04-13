@@ -44,7 +44,6 @@ async function pullData() {
     }
 
     fetchMore = true;
-    // console.log({ result });
 
     if (result.list.length !== 0) {
 
@@ -112,50 +111,6 @@ async function pullData() {
         pullData();
     }, 1000)
 }
-
-
-onMounted(() => {
-    // 물 색깔 변경
-    let order1 = 5;
-    let order2 = 0;
-    let opc = 6;
-    let waterImg1 = document.getElementById("water1");
-    let waterImg2 = document.getElementById("water2");
-
-    function changeWater1() {
-        let num1 = (order1 + (opc - 1)) % opc;
-
-        waterImg1.style.opacity = 0.1 * num1;
-
-        order1--;
-        console.log(num1)
-
-        if(order1 <= -5) {
-            order1 = 5;
-        }
-
-        setTimeout(changeWater1, 1000);
-    }
-    changeWater1();
-
-    function changeWater2() {
-        let num2 = (order2 + opc) % opc;
-
-        waterImg2.style.opacity = 0.1 * num2;
-
-        order2++;
-        console.log(num2)
-
-        // if(order <= -5) {
-        //     order = 5;
-        // }
-
-        setTimeout(changeWater2, 1000);
-    }
-    changeWater2();
-
-
-})
 </script>
 
 <style lang="less">
@@ -176,10 +131,28 @@ onMounted(() => {
         width: 100vw;
         height: 100vh;
         opacity: 0.5;
-        transition: all 1s;
+        animation: fadeinout 4s infinite;
         background: url(@/assets/img/water1.png) no-repeat;
         background-position: bottom;
         background-size: cover;
+
+        @keyframes fadeinout {
+            0% {
+                opacity: 0.5;
+            }
+            25% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            75% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
     }
 
     #water2 {
@@ -190,10 +163,28 @@ onMounted(() => {
         width: 100vw;
         height: 100vh;
         opacity: 0.5;
-        transition: all 1s;
+        animation: fadeoutin 4s infinite;
         background: url(@/assets/img/water2.png) no-repeat;
         background-position: bottom;
         background-size: cover;
+
+        @keyframes fadeoutin {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0;
+            }
+            75% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
     }
 
     #bgItems {
@@ -230,21 +221,20 @@ onMounted(() => {
 
     #fixedAnswers {
         position: absolute;
-        left: 40px;
-        top: 40px;
-        width: calc(100% - 80px);
-        height: calc(100% - 80px);
+        left: 25px;
+        top: 25px;
+        width: calc(100% - 50px);
+        height: calc(100% - 50px);
         writing-mode: vertical-lr;
         text-orientation: upright;
         color: #000;
         font-size: 24px;
         font-weight: 400;
-        // word-break: keep-all;
         z-index: 9999;
 
         span {
             padding-bottom: 50px;
-            line-height: 50px;
+            line-height: 35px;
         }
     }
 }

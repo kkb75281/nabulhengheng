@@ -1,6 +1,7 @@
 <template lang="pug">
 #loading
-    #water(src="../assets/img/Asset3.png")
+    #water1 
+    #water2
     img#bgItems(src="../assets/img/candle.png")
     #content
         #showAnswers
@@ -25,7 +26,6 @@ skapi.getRecords({
         let answer = result.list[i].data.answer;
         answers.push(answer);
     }
-    // answers.unshift(answers[answers.length - 1]);
 
     let showAnswers = document.getElementById('showAnswers');
     let newObj = [];
@@ -80,17 +80,6 @@ skapi.getRecords({
     }    
     downAnswer();
 })
-
-onMounted(() => {
-    // 물 색깔 변경
-    let waterImg = document.getElementById("water");
-
-    function changeWater(){
-        waterImg.classList.toggle('change');
-        setTimeout(changeWater,2000);
-    }
-    changeWater();
-})
 </script>
 
 <style lang="less">
@@ -103,19 +92,67 @@ onMounted(() => {
     position: relative;
     overflow: hidden;
 
-    #water {
+    #water1 {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         width: 100vw;
         height: 100vh;
         opacity: 0.5;
-        transition: all 1s;
+        animation: fadeinout 4s infinite;
         background: url(@/assets/img/water1.png) no-repeat;
         background-position: bottom;
         background-size: cover;
 
-        &.change {
-            background: url(@/assets/img/water2.png) no-repeat;
-            background-position: bottom;
-            background-size: cover;
+        @keyframes fadeinout {
+            0% {
+                opacity: 0.5;
+            }
+            25% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            75% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    #water2 {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100vw;
+        height: 100vh;
+        opacity: 0.5;
+        animation: fadeoutin 4s infinite;
+        background: url(@/assets/img/water2.png) no-repeat;
+        background-position: bottom;
+        background-size: cover;
+
+        @keyframes fadeoutin {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0;
+            }
+            75% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+            }
         }
     }
 
