@@ -8,7 +8,6 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
 
 let answers = [];
@@ -21,7 +20,7 @@ skapi.getRecords({
     limit: 1000,
     ascending: false
 }).then(result=>{
-    console.log(result)
+    // console.log(result)
     for(let i =0; i<result.list.length; i++) {
         let answer = result.list[i].data.answer;
         answers.push(answer);
@@ -63,22 +62,19 @@ skapi.getRecords({
         }
     }, 1000);
 
-    function downAnswer() {
-        setInterval(function () {
-            for (let i = 0; i < answers.length; i++) {
-                if (i < newObj.length) {
-                    newObj[i].style.top = answerTop[i] + "px";
-                    answerTop[i] += 30;
-                    if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight/1.5) {
-                        if (showAnswers.contains(newObj[i])) {
-                            showAnswers.removeChild(newObj[i]);
-                        }
+    setInterval(function () {
+        for (let i = 0; i < answers.length; i++) {
+            if (i < newObj.length) {
+                newObj[i].style.top = answerTop[i] + "px";
+                answerTop[i] += 30;
+                if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight/1.5) {
+                    if (showAnswers.contains(newObj[i])) {
+                        showAnswers.removeChild(newObj[i]);
                     }
                 }
             }
-        }, 500);
-    }    
-    downAnswer();
+        }
+    }, 500);
 })
 </script>
 

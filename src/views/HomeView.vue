@@ -25,10 +25,6 @@ main
       span &gt;
 </template>
 
-<script setup>
-
-</script>
-
 <style lang="less" scoped>
 main {
   position: relative;

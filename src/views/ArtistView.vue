@@ -1,5 +1,5 @@
 <template lang="pug">
-LoadingPage(v-if="invaildLoad")
+LoadingPage(v-if="showLake")
 main
     header
         h2
@@ -28,7 +28,7 @@ import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
 import LoadingPage from '@/components/LoadingPage.vue';
 
-let invaildLoad = ref(false);
+let showLake = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
 let que = ref('');
@@ -57,16 +57,16 @@ async function submitForm(e){
             name: 'uploadAnswer',
         }
     }
-    console.log(skapi.session);
+    // console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
-    console.log({ result });
-    invaildLoad.value = true;
+    // console.log({ result });
+    showLake.value = true;
     document.querySelector('main').classList.add('hide');
     setTimeout("location.href = '/artist';", 9000);
 }
 
 onMounted(() => {
-que.value = questions[random];
+    que.value = questions[random];
 })
 </script>
     

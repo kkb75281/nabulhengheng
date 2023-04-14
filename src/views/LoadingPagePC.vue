@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
 import { skapi } from '@/main';
 
 let currTime;
@@ -89,23 +88,20 @@ async function pullData() {
             }
         }, 1000);
 
-        function downAnswer() {
-            setInterval(function () {
-                for (let i = 0; i < answers.length; i++) {
-                    if (i < newObj.length) {
-                        newObj[i].style.top = answerTop[i] + "px";
-                        answerTop[i] += 30;
-                        if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight / 1.5) {
-                            if (showAnswers.contains(newObj[i])) {
-                                showAnswers.removeChild(newObj[i]);
-                                fixedAnswers.innerHTML += '<span>' + newObj[i].innerText + '</span>';
-                            }
+        setInterval(function () {
+            for (let i = 0; i < answers.length; i++) {
+                if (i < newObj.length) {
+                    newObj[i].style.top = answerTop[i] + "px";
+                    answerTop[i] += 30;
+                    if (answerTop[i] + HEIGHT >= showAnswers.offsetHeight / 1.5) {
+                        if (showAnswers.contains(newObj[i])) {
+                            showAnswers.removeChild(newObj[i]);
+                            fixedAnswers.innerHTML += '<span>' + newObj[i].innerText + '</span>';
                         }
                     }
                 }
-            }, 500);
-        }
-        downAnswer();
+            }
+        }, 500);
     }
     setTimeout(() => {
         pullData();
