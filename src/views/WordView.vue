@@ -14,7 +14,7 @@ main
             .answer 
                 label (10자 내외로 답변을 남겨주세요)
                 br
-                sui-input#answer(type='answer' name='answer')
+                sui-input#answer(type='text' name='answer')
             .btn 
                 sui-button#another(@click="(e) => {hrefLink(e)}") 다른 질문
                 sui-button#submit(type='submit') 제출
