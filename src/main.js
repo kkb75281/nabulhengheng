@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import './assets/main.css'
 
-let skapi = new Skapi('ap22aWRRyr4OBzCmodru', 'ad5cb248-44f8-4f82-8f4d-655167007594');
+const skapi = new Skapi("ap22vfR3eDOllHnVgi5D", "bf305ace-03b5-4f9d-b88f-291458748ca3");
 
 const app = createApp(App)
 
