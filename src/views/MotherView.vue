@@ -58,7 +58,7 @@ async function submitForm(e){
     // console.log({ result });
     showLake.value = true;
     document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/mother';", 9000);
+    setTimeout("location.href = '/mother';", 2000);
 }
 
 onMounted(() => {

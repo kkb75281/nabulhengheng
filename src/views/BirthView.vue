@@ -63,7 +63,7 @@ async function submitForm(e){
     // console.log({ result });
     showLake.value = true;
     document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/birth';", 9000);
+    setTimeout("location.href = '/birth';", 2000);
 }
 
 onMounted(() => {
