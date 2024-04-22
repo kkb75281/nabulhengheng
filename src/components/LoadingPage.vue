@@ -11,10 +11,11 @@
 import { skapi } from '@/main';
 
 let answers = [];
+let props = defineProps(['tableName'])
 
 skapi.getRecords({
     table: {
-        name: 'uploadAnswer',
+        name: props.tableName,
     }
 }, {
     limit: 1000,

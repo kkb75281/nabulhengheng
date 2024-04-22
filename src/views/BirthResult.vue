@@ -1,5 +1,6 @@
 <template lang="pug">
-main
+LoadingPage(v-if="showLake" @click='goHomeView' :tableName='name')
+main(v-else)
     header
         h2 탄생
         h2.logo 나불행행
@@ -18,10 +19,14 @@ main
             br
             br
             | 그러나 이미 세상에 태어나 어떠한 이름을 가진 불행 1씨는 죽음이라는 선택지가 아닌 이상 현세에 존재해야 함이 마땅했다. 이제 그는 그저 자신과 같은, 혹은 더한 수많은 불행들 속에서, 이를 악물고 살아남아야 할 뿐이었다.
-        sui-button(@click="goHomeView") 다른 불행 읽어보기
+        sui-button(@click="showLake=true") 다른 불행 읽어보기
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import LoadingPage from '@/components/LoadingPage.vue';
+let showLake = ref(false);
+let name = 'birth';
 function goHomeView() {
     location.href = '/';
 }

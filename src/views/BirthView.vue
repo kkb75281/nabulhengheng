@@ -1,11 +1,14 @@
 <template lang="pug">
-LoadingPage(v-if="showLake")
 main
     header
         h2 탄생
         h2.logo 나불행행
     section
         p 저는 제 자의로 무언가를 하지 않는 것을 제일 싫어하는 사람이에요. 그래서 생각해봤죠. 내가 내 자의 없이 오롯이 타의만으로 겪은 일은 무엇일까? 저는 그게 '탄생'이라고 생각했어요. 당신의 '탄생'에 대한 기억을 묻고 싶어요. 이 질문에 답하면 '탄생'에 대한 제 생각을 더 읽을 수 있어요.
+        br
+        br
+        br
+        br
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
         form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
@@ -22,9 +25,10 @@ main
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { skapi } from '@/main';
-import LoadingPage from '@/components/LoadingPage.vue';
 
+let router = useRouter();
 let showLake = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
@@ -55,15 +59,16 @@ function afterSubmit() {
 async function submitForm(e){
     let setting = {
         table: {
-            name: 'uploadAnswer',
+            name: 'birth',
         }
     }
     // console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     // console.log({ result });
-    showLake.value = true;
-    document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/birth';", 2000);
+    // showLake.value = true;
+    // document.querySelector('main').classList.add('hide');
+    router.push('birth');
+    // setTimeout("location.href = '/birth';", 2000);
 }
 
 onMounted(() => {
@@ -101,7 +106,7 @@ main {
     
         p {
             width: 350px;
-            height: 400px;
+            // height: 400px;
             font-weight: 300;
             font-size: 24px;
             line-height: 35px;

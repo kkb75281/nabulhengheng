@@ -1,5 +1,5 @@
 <template lang="pug">
-LoadingPage(v-if="showLake" @click='goHomeView')
+LoadingPage(v-if="showLake" @click='goHomeView' :tableName='name')
 main(v-else)
     header
         h2 말
@@ -26,6 +26,7 @@ main(v-else)
 import { ref } from 'vue';
 import LoadingPage from '@/components/LoadingPage.vue';
 let showLake = ref(false);
+let name = 'word';
 function goHomeView() {
     location.href = '/';
 }

@@ -1,5 +1,4 @@
 <template lang="pug">
-LoadingPage(v-if="showLake")
 main
     header
         h2
@@ -9,6 +8,10 @@ main
         h2.logo 나불행행
     section
         p 저는 ‘예술가’라는 이름을 붙잡으며 살고 있어요. 여기에서 이 질문을 보고 있다면 당신도 최소한 예술의 언저리에 있는 사람일 수도 있겠네요. 당신의 나날 속 ‘예술’에 대해 말해주세요. 이 질문에 답하면 '예술가'로 산다는 것에 대한 제 생각을 더 읽을 수 있어요.
+        br
+        br
+        br
+        br
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
         form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
@@ -25,9 +28,10 @@ main
     
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { skapi } from '@/main';
-import LoadingPage from '@/components/LoadingPage.vue';
 
+let router = useRouter();
 let showLake = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
@@ -54,15 +58,16 @@ function hrefLink(e) {
 async function submitForm(e){
     let setting = {
         table: {
-            name: 'uploadAnswer',
+            name: 'artist',
         }
     }
     // console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     // console.log({ result });
-    showLake.value = true;
-    document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/artist';", 2000);
+    // showLake.value = true;
+    // document.querySelector('main').classList.add('hide');
+    router.push('artist');
+    // setTimeout("location.href = '/artist';", 2000);
 }
 
 onMounted(() => {
@@ -96,7 +101,7 @@ main {
     
         p {
             width: 350px;
-            height: 400px;
+            // height: 400px;
             font-weight: 300;
             font-size: 24px;
             line-height: 35px;

@@ -1,5 +1,6 @@
 <template lang="pug">
-main
+LoadingPage(v-if="showLake" @click='goHomeView' :tableName='name')
+main(v-else)
     header
         h2
             | 예
@@ -54,10 +55,14 @@ main
             | 2023년 2월 1일
             br
             | 돌고 돌아 제자리. 나는 아니라고 부정했던 그곳에 스스로 돌아왔다. 어쩌면 다른 길을 찾았다고 스스로를 위안하고 있었는지 모른다. 그냥 도망친 거였는데. 다시 꾹꾹, 내 발자국을 남겨야겠다.
-        sui-button(@click="goHomeView") 다른 불행 읽어보기
+        sui-button(@click="showLake=true") 다른 불행 읽어보기
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import LoadingPage from '@/components/LoadingPage.vue';
+let showLake = ref(false);
+let name = 'artist';
 function goHomeView() {
     location.href = '/';
 }

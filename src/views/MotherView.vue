@@ -1,11 +1,14 @@
 <template lang="pug">
-LoadingPage(v-if="showLake")
 main
     header
         h2 엄마
         h2.logo 나불행행
     section
         p 엄마는 저에게 있어 애증의 관계에 있어요(이건 당신과 나만의 비밀이에요). 엄마로 산다는 것이 도대체가 무엇인지 저는 가끔 통탄스러워요. 이건 제 엄마만의 이야기일까요? 지금 이 글을 읽고 있는 당신도 엄마를 찬찬히 떠올릴 수 있게 도와드릴게요. 이 질문에 답하면 '엄마'에 대한 제 생각을 더 읽을 수 있어요.
+        br
+        br
+        br
+        br
         sui-button(:class="{hide: invaildHide}" @click="showQnA") 질문에 답하기
         form#qna(:class="{active: invaildShow}" ref='form' onsubmit='return false;' @submit.prevent="e=>{submitForm(e.target);}")
             .question
@@ -22,9 +25,10 @@ main
     
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { skapi } from '@/main';
-import LoadingPage from '@/components/LoadingPage.vue';
 
+let router = useRouter();
 let showLake = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
@@ -50,15 +54,16 @@ function hrefLink() {
 async function submitForm(e){
     let setting = {
         table: {
-            name: 'uploadAnswer',
+            name: 'mother',
         }
     }
     // console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     // console.log({ result });
-    showLake.value = true;
-    document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/mother';", 2000);
+    // showLake.value = true;
+    // document.querySelector('main').classList.add('hide');
+    router.push('mother');
+    // setTimeout("location.href = '/mother';", 2000);
 }
 
 onMounted(() => {
@@ -96,7 +101,7 @@ main {
     
         p {
             width: 350px;
-            height: 400px;
+            // height: 400px;
             font-weight: 300;
             font-size: 24px;
             line-height: 35px;

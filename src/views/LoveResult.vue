@@ -1,5 +1,6 @@
 <template lang="pug">
-main
+LoadingPage(v-if="showLake" @click='goHomeView' :tableName='name')
+main(v-else)
     header
         h2 사랑
         h2.logo 나불행행
@@ -35,10 +36,14 @@ main
             br
             br
             span 불행 48씨, 다시 53씨의 빈 잔에 쪼르르, 하고 술을 채운다.
-        sui-button(@click="goHomeView") 다른 불행 읽어보기
+        sui-button(@click="showLake=true") 다른 불행 읽어보기
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import LoadingPage from '@/components/LoadingPage.vue';
+let showLake = ref(false);
+let name = 'love';
 function goHomeView() {
     location.href = '/';
 }
