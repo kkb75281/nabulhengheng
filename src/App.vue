@@ -2,8 +2,8 @@
 import { RouterView } from 'vue-router'
 import { skapi } from './main';
 
-skapi.getConnection().then(c => {
-  if (!skapi.user) {
+skapi.getProfile().then(c => {
+  if (!c) {
     skapi.login({
       email: 'anonymous@anonymous.com',
       password: 'anonymous'
