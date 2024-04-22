@@ -1,5 +1,4 @@
 <template lang="pug">
-LoadingPage(v-if="showLake")
 main
     header
         h2 말
@@ -22,9 +21,10 @@ main
     
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { skapi } from '@/main';
 import LoadingPage from '@/components/LoadingPage.vue';
-
+let router = useRouter();
 let showLake = ref(false);
 let invaildShow = ref(false);
 let invaildHide = ref(false);
@@ -56,11 +56,11 @@ async function submitForm(e){
     // console.log(skapi.session);
     let result = await skapi.postRecord(e, setting);
     // console.log({ result });
-    showLake.value = true;
-    document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/word';", 2000);
+    // showLake.value = true;
+    // document.querySelector('main').classList.add('hide');
+    router.push('word');
+    // setTimeout("location.href = '/word';", 2000);
 }
-
 onMounted(() => {
     que.value = questions[random];
 })

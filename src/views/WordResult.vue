@@ -1,5 +1,6 @@
 <template lang="pug">
-main
+LoadingPage(v-if="showLake" @click='goHomeView')
+main(v-else)
     header
         h2 말
         h2.logo 나불행행
@@ -18,10 +19,13 @@ main
             br
             br
             | 이내 불행 2씨를 만든 모든 입과 손, 그리고 활자들을 떠올린다. 그 순간들이 모여 스스로를 가증스럽게 느끼게 된 불행 2씨는 그저 소리 없이 숨죽여 불행 2씨의 탄생의 순간을 떠올린다. 그를 보며 방긋 웃던 많은 소리들, 사랑을 담아 안아 올리던 손길들을 기억해낸다. 불행 2씨는 옹알이 같은 것들을 따라 해보려 입을 뗀다. 아, 하고 마른 소리가 방 안에 먹먹히 울린다. 이제는 따라 할 수도 없는 그 옹알이들, 불행 2씨는 다시 그 사랑의 모습으로 자신의 악랄한 모습을 감추며 세상에서 존재하길 남몰래 바라다 다시 잠에 든다.
-        sui-button(@click="goHomeView") 다른 불행 읽어보기
+        sui-button(@click="showLake=true") 다른 불행 읽어보기
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import LoadingPage from '@/components/LoadingPage.vue';
+let showLake = ref(false);
 function goHomeView() {
     location.href = '/';
 }
