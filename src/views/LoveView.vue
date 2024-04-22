@@ -59,7 +59,7 @@ async function submitForm(e){
     // console.log({ result });
     showLake.value = true;
     document.querySelector('main').classList.add('hide');
-    setTimeout("location.href = '/love';", 9000);
+    setTimeout("location.href = '/love';", 2000);
 }
 
 onMounted(() => {
